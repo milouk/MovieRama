@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/activity_margin"
+    android:layout_marginRight="@dimen/activity_margin"
+    android:layout_marginBottom="@dimen/activity_margin"
+    android:backgroundTint="@color/white"
+    android:elevation="8dp"
+    app:cardCornerRadius="20dp">
+
+    <RelativeLayout
+        android:id="@+id/movie_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/activity_margin">
+
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_poster"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="19dp"
+            android:text="God Father"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/movie_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_poster"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="49dp"
+            android:text="19-2-2010" />
+
+        <com.github.ivbaranov.mfb.MaterialFavoriteButton
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_poster"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="6dp"
+            android:saveEnabled="true"
+            app:mfb_color="black"
+            app:mfb_size="48"
+            app:mfb_type="heart" />
+
+        <ProgressBar
+            android:id="@+id/image_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movie_poster"
+            android:layout_alignTop="@+id/movie_poster"
+            android:layout_alignEnd="@+id/movie_poster"
+            android:layout_alignBottom="@+id/movie_poster"
+            android:layout_marginStart="165dp"
+            android:layout_marginTop="78dp"
+            android:layout_marginEnd="166dp"
+            android:layout_marginBottom="74dp" />
+
+        <TextView
+            android:id="@+id/rating_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_title"
+            android:layout_alignStart="@+id/movie_poster"
+            android:layout_alignBottom="@+id/movie_date"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="9dp"
+            tools:text="7.2/10" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

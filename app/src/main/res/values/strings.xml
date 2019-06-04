@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MovieRama</string>
+    <string name="search">Search MovieRama...</string>
+    <string name="description">Description</string>
+    <string name="rating">User Rating</string>
+    <string name="director">Director</string>
+    <string name="cast">Cast</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_reviews">No Reviews Available</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="general_header">General</string>
+
+    <!-- General Preferences -->
+    <string name="clear_cache">Clear Cache</string>
+
+</resources>
