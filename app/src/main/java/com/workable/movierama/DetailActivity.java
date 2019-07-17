@@ -235,35 +235,36 @@ public class DetailActivity extends AppCompatActivity {
                                    @NonNull Response<ReviewApiResponse> response) {
                 // Got reviews data.
                 List<Review> reviews = fethReviews(response);
-                assert reviews != null;
-                int numberOfReviews = reviews.size();
-                String sauthor1;
-                String sreview1;
-                //Set reviews according to the fetched number (up to 2)
-                switch (numberOfReviews) {
-                    case 0:
-                        review1.setText("\n\n" + R.string.no_reviews);
-                        review2.setVisibility(View.GONE);
-                        divider.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        sauthor1 = reviews.get(0).getAuthor();
-                        sreview1 = reviews.get(0).getContent();
-                        author1.setText("\n\n" + sauthor1);
-                        review1.setText("\n\n" + sreview1);
-                        review2.setVisibility(View.GONE);
-                        divider.setVisibility(View.GONE);
-                        break;
-                    default:
-                        sauthor1 = reviews.get(0).getAuthor();
-                        sreview1 = reviews.get(0).getContent();
-                        String sauthor2 = reviews.get(1).getAuthor();
-                        String sreview2 = reviews.get(1).getContent();
-                        author1.setText("\n\n" + sauthor1);
-                        review1.setText("\n\n" + sreview1);
-                        author2.setText(sauthor2);
-                        review2.setText("\n" + sreview2);
-                        break;
+                if (reviews != null) {
+                    int numberOfReviews = reviews.size();
+                    String sauthor1;
+                    String sreview1;
+                    //Set reviews according to the fetched number (up to 2)
+                    switch (numberOfReviews) {
+                        case 0:
+                            review1.setText("\n\n" + R.string.no_reviews);
+                            review2.setVisibility(View.GONE);
+                            divider.setVisibility(View.GONE);
+                            break;
+                        case 1:
+                            sauthor1 = reviews.get(0).getAuthor();
+                            sreview1 = reviews.get(0).getContent();
+                            author1.setText("\n\n" + sauthor1);
+                            review1.setText("\n\n" + sreview1);
+                            review2.setVisibility(View.GONE);
+                            divider.setVisibility(View.GONE);
+                            break;
+                        default:
+                            sauthor1 = reviews.get(0).getAuthor();
+                            sreview1 = reviews.get(0).getContent();
+                            String sauthor2 = reviews.get(1).getAuthor();
+                            String sreview2 = reviews.get(1).getContent();
+                            author1.setText("\n\n" + sauthor1);
+                            review1.setText("\n\n" + sreview1);
+                            author2.setText(sauthor2);
+                            review2.setText("\n" + sreview2);
+                            break;
+                    }
                 }
             }
 
@@ -283,18 +284,22 @@ public class DetailActivity extends AppCompatActivity {
                 List<Cast> cast = fetchCast(response);
                 List<Crew> crew = fetchCrew(response);
                 StringBuilder movieCast = new StringBuilder(1000);
-                assert cast != null;
-                for (int i = 0; i < cast.size(); i++) {
-                    movieCast.append(cast.get(i).getCastName()).append(", ");
+                if (cast != null) {
+                    if (cast.size() != 0) {
+                        for (int i = 0; i < cast.size(); i++) {
+                            movieCast.append("• ").append(cast.get(i).getCastName()).append("\n");
+                        }
+                        actors.setText("\n" + movieCast.substring(0, movieCast.length() - 2));
+                    }
                 }
-                actors.setText("\n" + movieCast.substring(0, movieCast.length() - 2));
 
                 //Get Directors Name.
-                assert crew != null;
-                for (int i = 0; i < crew.size(); i++) {
-                    if (crew.get(i).getCrewJob().equals("Director")) {
-                        director.setText("\n" + crew.get(i).getCrewName());
-                        break;
+                if (crew != null) {
+                    for (int i = 0; i < crew.size(); i++) {
+                        if (crew.get(i).getCrewJob().equals("Director")) {
+                            director.setText("\n" + "• " + crew.get(i).getCrewName());
+                            break;
+                        }
                     }
                 }
             }
@@ -396,7 +401,7 @@ public class DetailActivity extends AppCompatActivity {
 
     //Get Credits
     private Call<CreditApiResponse> callCredits() {
-        return movieService.getCredits(String.valueOf(movie_id),
+        return movieService.getMovieCredits(String.valueOf(movie_id),
                 BuildConfig.THE_MOVIE_DB_API_TOKEN);
     }
 
