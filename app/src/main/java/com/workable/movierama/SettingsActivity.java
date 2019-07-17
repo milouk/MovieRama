@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    //Deletec Cached Data
+    //Delete Cached Data
     public static void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
