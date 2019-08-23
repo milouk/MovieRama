@@ -1,59 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
     tools:context="com.workable.movierama.MainActivity">
 
-    <com.libizo.CustomEditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_margin_search_bar"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:elevation="5dp"
-        android:hint="@string/search"
-        android:textAlignment="center"
-        app:libIZO_clearIconTint="#8f1f15"
-        app:libIZO_setBackgroundColor="@color/white"
-        app:libIZO_setBorderColor="#B0B0B0"
-        app:libIZO_setBorderView="true"
-        app:libIZO_setClearIconVisible="false"
-        app:libIZO_setCornerRadius="20dp"
-        app:libIZO_setStrokeWidth="1dp" />
 
-    <FrameLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/grey">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_layout"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movies" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tvshows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_shows" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewPager">
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin_search_bar"
-            android:background="@color/colorPrimaryDark"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/activity_margin_content">
+            android:id="@+id/container1"/>
+    </androidx.viewpager.widget.ViewPager>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/movie_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark" />
-
-            <ProgressBar
-                android:id="@+id/movie_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                tools:visibility="visible" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>
 
 
-    </FrameLayout>
 
-</FrameLayout>
