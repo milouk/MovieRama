@@ -86,12 +86,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case ITEM:
                 final MovieVH movieVH = (MovieVH) holder;
 
-                //Restore favorite state
-                if (favorites.contains(result.getId().toString())) {
-                    movieVH.materialFavoriteButton.setFavorite(favorites.getBoolean(result.getId()
-                            .toString(), false));
-                } else {
-                    movieVH.materialFavoriteButton.setFavorite(false);
+                if (result.getId() != null) {
+                    //Restore favorite state
+                    if (favorites.contains(result.getId().toString())) {
+                        movieVH.materialFavoriteButton.setFavorite(favorites.getBoolean(result.getId()
+                                .toString(), false));
+                    } else {
+                        movieVH.materialFavoriteButton.setFavorite(false);
+                    }
                 }
 
                 //Change favorite status

@@ -401,7 +401,7 @@ public class DetailActivity extends AppCompatActivity {
 
     //Get Credits
     private Call<CreditApiResponse> callCredits() {
-        return movieService.getMovieCredits(String.valueOf(movie_id),
+        return movieService.getCredits(String.valueOf(movie_id),
                 BuildConfig.THE_MOVIE_DB_API_TOKEN);
     }
 
