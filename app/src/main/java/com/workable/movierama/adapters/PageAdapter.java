@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.workable.movierama.fragments.MovieFragment;
+import com.workable.movierama.fragments.TvShowFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
@@ -23,9 +24,10 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 0:
                 return new MovieFragment();
             case 1:
-                return new MovieFragment();
+                return new TvShowFragment();
             default:
-                return null;
+                final Fragment o = null;
+                return o;
         }
     }
 

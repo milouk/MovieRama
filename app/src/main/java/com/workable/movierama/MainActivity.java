@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.workable.movierama.adapters.PageAdapter;
 import com.workable.movierama.fragments.MovieFragment;
+import com.workable.movierama.fragments.TvShowFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     ft.commit();
                 }else if(tab.getPosition() == 1){
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.container1, new MovieFragment());
+                    ft.replace(R.id.container1, new TvShowFragment());
                     ft.commit();
                 }
             }

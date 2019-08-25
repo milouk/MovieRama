@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:id="@+id/movie_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="5dp"
+            tools:visibility="visible" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_search_bar"
+            android:background="@color/colorPrimaryDark"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/activity_margin_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/movie_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </FrameLayout>
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fltn_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/activity_margin"
+        android:elevation="10dp"
+        app:fab_showShadow="true"
+        app:maxImageSize="5dp"
+        app:menu_icon="@drawable/filter_image"
+        app:menu_fab_label="@string/sort_by">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/last_added"
+            app:fab_showShadow="true"
+            app:maxImageSize="5dp" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.libizo.CustomEditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_margin_search_bar"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:elevation="5dp"
+        android:hint="@string/search"
+        android:textAlignment="center"
+        app:libIZO_clearIconTint="#8f1f15"
+        app:libIZO_setBackgroundColor="@color/white"
+        app:libIZO_setBorderColor="#B0B0B0"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setClearIconVisible="false"
+        app:libIZO_setCornerRadius="20dp"
+        app:libIZO_setStrokeWidth="1dp" />
+
+
+</RelativeLayout>

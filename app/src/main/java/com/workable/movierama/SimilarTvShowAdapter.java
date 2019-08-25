@@ -1,4 +1,4 @@
-package com.workable.movierama.adapters;
+package com.workable.movierama;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,23 +20,21 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.workable.movierama.MovieDetailActivity;
-import com.workable.movierama.R;
-import com.workable.movierama.models.Movie;
+import com.workable.movierama.models.TvShow;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SimilarTvShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/original";
-    private List<Movie> similarMovies;
+    private List<TvShow> similarTvShows;
     private Context context;
 
 
-    public SimilarMovieAdapter(Context context) {
+    public SimilarTvShowAdapter(Context context) {
         this.context = context;
-        similarMovies = new ArrayList<>();
+        similarTvShows = new ArrayList<>();
     }
 
 
@@ -53,7 +51,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
         View v1 = inflater.inflate(R.layout.similar_movie_item, parent, false);
-        viewHolder = new SimilarMovieAdapter.SimilarMovieVH(v1);
+        viewHolder = new SimilarTvShowAdapter.SimilarTvShowVH(v1);
         return viewHolder;
     }
 
@@ -61,10 +59,10 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        final Movie result = similarMovies.get(position); // Movie
+        final TvShow result = similarTvShows.get(position); // Movie
 
-        final SimilarMovieAdapter.SimilarMovieVH movieVH =
-                (SimilarMovieAdapter.SimilarMovieVH) holder;
+        final SimilarTvShowAdapter.SimilarTvShowVH tvShowVH =
+                (SimilarTvShowAdapter.SimilarTvShowVH) holder;
         //Get Backdrop Image for the Similar Movie thumbnails
         Glide
                 .with(context)
@@ -73,7 +71,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model,
                                                 Target<Drawable> target, boolean isFirstResource) {
-                        movieVH.mProgress.setVisibility(View.GONE);
+                        tvShowVH.mProgress.setVisibility(View.GONE);
                         return false;
                     }
 
@@ -81,7 +79,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public boolean onResourceReady(Drawable resource, Object model,
                                                    Target<Drawable> target,
                                                    DataSource dataSource, boolean isFirstResource) {
-                        movieVH.mProgress.setVisibility(View.GONE);
+                        tvShowVH.mProgress.setVisibility(View.GONE);
 
                         return false;
                     }
@@ -89,7 +87,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // cache both original & resized image
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop())
-                .into(movieVH.mPosterImg);
+                .into(tvShowVH.mPosterImg);
 
 
     }
@@ -97,27 +95,27 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return similarMovies == null ? 0 : similarMovies.size();
+        return similarTvShows == null ? 0 : similarTvShows.size();
     }
 
     //Add A movie to the adapter
-    private void add(Movie r) {
-        similarMovies.add(r);
-        notifyItemInserted(similarMovies.size() - 1);
+    private void add(TvShow r) {
+        similarTvShows.add(r);
+        notifyItemInserted(similarTvShows.size() - 1);
     }
 
     //Add a set of movies to the adapter
-    public void addAll(List<Movie> moveResults) {
-        for (Movie result : moveResults) {
+    public void addAll(List<TvShow> tvShowResults) {
+        for (TvShow result : tvShowResults) {
             add(result);
         }
     }
 
-    class SimilarMovieVH extends RecyclerView.ViewHolder {
+    class SimilarTvShowVH extends RecyclerView.ViewHolder {
         private ImageView mPosterImg;
         private ProgressBar mProgress;
 
-        SimilarMovieVH(View itemView) {
+        SimilarTvShowVH(View itemView) {
             super(itemView);
             mPosterImg = itemView.findViewById(R.id.similar_movie_poster);
             mProgress = itemView.findViewById(R.id.similar_movie_progress);
@@ -128,9 +126,9 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        Movie clickedDataItem = similarMovies.get(pos);
-                        Intent intent = new Intent(context, MovieDetailActivity.class);
-                        intent.putExtra("movies", clickedDataItem);
+                        TvShow clickedDataItem = similarTvShows.get(pos);
+                        Intent intent = new Intent(context, TvShowDetailActivity.class);
+                        intent.putExtra("tv", clickedDataItem);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }
@@ -138,4 +136,6 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         }
     }
+
+
 }

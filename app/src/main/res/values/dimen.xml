@@ -10,7 +10,8 @@
     <dimen name="poster_thumb_width">106dp</dimen>
     <dimen name="poster_thumb_height">145dp</dimen>
     <dimen name="activity_margin_quarter">4dp</dimen>
-    <dimen name="activity_margin_search_bar">50dp</dimen>
+    <dimen name="activity_margin_search_bar">40dp</dimen>
     <dimen name="detail_backdrop_height">500dp</dimen>
+    <dimen name="search_bar_right_margin">80dp</dimen>
 
 </resources>

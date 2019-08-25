@@ -42,7 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity {
 
     private TextView nameOfMovie;
     private TextView releaseDate;
@@ -110,13 +110,32 @@ public class DetailActivity extends AppCompatActivity {
 
             Movie movie = getIntent().getParcelableExtra("movies");
 
-            String thumbnail = movie.getPosterPath();
-            movieName = movie.getOriginalTitle();
-            String synopsis = movie.getOverview();
-            String rating = Double.toString(movie.getVoteAverage());
-            String dateOfRelease = movie.getReleaseDate();
-            movie_id = movie.getId();
-            List<Integer> genreIds = movie.getGenreIds();
+            String thumbnail = null;
+            if (movie != null) {
+                thumbnail = movie.getPosterPath();
+            }
+            if (movie != null) {
+                movieName = movie.getOriginalTitle();
+            }
+            String synopsis = null;
+            if (movie != null) {
+                synopsis = movie.getOverview();
+            }
+            String rating = null;
+            if (movie != null) {
+                rating = Double.toString(movie.getVoteAverage());
+            }
+            String dateOfRelease = null;
+            if (movie != null) {
+                dateOfRelease = movie.getReleaseDate();
+            }
+            if (movie != null) {
+                movie_id = movie.getId();
+            }
+            List<Integer> genreIds = null;
+            if (movie != null) {
+                genreIds = movie.getGenreIds();
+            }
 
             //Restore Favorite Status
             favorites = this.getSharedPreferences("favorites", MODE_PRIVATE);
@@ -184,7 +203,7 @@ public class DetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.settings) {
-            Intent intent = new Intent(DetailActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MovieDetailActivity.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -287,7 +306,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (cast != null) {
                     if (cast.size() != 0) {
                         for (int i = 0; i < cast.size(); i++) {
-                            movieCast.append("• ").append(cast.get(i).getCastName()).append("\n");
+                            movieCast.append("• ").append(cast.get(i).getCharacter()).append(" - ").append(cast.get(i).getCastName()).append("\n");
                         }
                         actors.setText("\n" + movieCast.substring(0, movieCast.length() - 2));
                     }
@@ -349,6 +368,8 @@ public class DetailActivity extends AppCompatActivity {
         genres.put(53, "Thriller");
         genres.put(10752, "War");
         genres.put(37, "Western");
+        genres.put(10765, "Sci-Fi & Fantasy");
+
     }
 
     //Fetch Movies
@@ -401,7 +422,7 @@ public class DetailActivity extends AppCompatActivity {
 
     //Get Credits
     private Call<CreditApiResponse> callCredits() {
-        return movieService.getCredits(String.valueOf(movie_id),
+        return movieService.getMovieCredits(String.valueOf(movie_id),
                 BuildConfig.THE_MOVIE_DB_API_TOKEN);
     }
 

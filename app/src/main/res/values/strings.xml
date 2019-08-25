@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">MovieRama</string>
     <string name="search">Search MovieRama...</string>
+    <string name="search_tv_shows">Search TV Shows...</string>
+    <string name="search_movies">Search Movies...</string>
     <string name="description">Description</string>
     <string name="rating">User Rating</string>
-    <string name="director">Director</string>
+    <string name="director">Director(s)</string>
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="reviews">Reviews</string>
@@ -12,6 +14,9 @@
     <string name="movies">Movies</string>
     <string name="tv_shows">Tv Shows</string>
 
+    <!-- Filter Options -->
+    <string name="sort_by">Sort By</string>
+    <string name="last_added">Last Added</string>
 
     <!-- Preference Titles -->
     <string name="general_header">General</string>

@@ -1,6 +1,5 @@
 package com.workable.movierama.fragments;
 
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -32,11 +31,11 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.workable.movierama.BuildConfig;
 import com.workable.movierama.R;
 import com.workable.movierama.SettingsActivity;
-import com.workable.movierama.adapters.MovieAdapter;
+import com.workable.movierama.adapters.TvShowAdapter;
 import com.workable.movierama.api.Client;
 import com.workable.movierama.api.FetchData;
-import com.workable.movierama.models.Movie;
-import com.workable.movierama.models.MovieApiResponse;
+import com.workable.movierama.models.TvShow;
+import com.workable.movierama.models.TvShowApiResponse;
 import com.workable.movierama.utilities.MovieScrollListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,9 +47,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieFragment extends Fragment {
+public class TvShowFragment extends Fragment {
 
-    private MovieAdapter movieAdapter;
+    private TvShowAdapter tvShowAdapter;
     private ProgressBar movieProgress;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -65,6 +64,7 @@ public class MovieFragment extends Fragment {
     private CharSequence searchTerm;
     private String origin = "popular";
     private FloatingActionMenu fltnMenu;
+
 
 
     @Nullable
@@ -86,21 +86,21 @@ public class MovieFragment extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
         EditText searchBar = view.findViewById(R.id.search_bar);
-        searchBar.setHint(R.string.search_movies);
+        searchBar.setHint(R.string.search_tv_shows);
+
+        fltnMenu = view.findViewById(R.id.fltn_menu);
 
         RecyclerView movieRecycler = view.findViewById(R.id.movie_recycler);
         movieProgress = view.findViewById(R.id.movie_progress);
 
-        fltnMenu = view.findViewById(R.id.fltn_menu);
-
-        movieAdapter = new MovieAdapter(getContext());
+        tvShowAdapter = new TvShowAdapter(getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),
                 RecyclerView.VERTICAL,
                 false);
         movieRecycler.setLayoutManager(linearLayoutManager);
         movieRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        movieRecycler.setAdapter(movieAdapter);
+        movieRecycler.setAdapter(tvShowAdapter);
 
 
         //Dynamically show search results
@@ -117,7 +117,7 @@ public class MovieFragment extends Fragment {
                 } else {
                     origin = "search";
                 }
-                movieAdapter.clear();
+                tvShowAdapter.clear();
                 loadFirstPage();
             }
 
@@ -142,7 +142,6 @@ public class MovieFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-
 
         //Infinite Scroll
         movieRecycler.addOnScrollListener(new MovieScrollListener(linearLayoutManager) {
@@ -180,7 +179,7 @@ public class MovieFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                movieAdapter.clear();
+                tvShowAdapter.clear();
                 //Reload from Page 1
                 currentPage = PAGE_START;
                 //Reload data
@@ -219,7 +218,7 @@ public class MovieFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        movieAdapter.clear();
+        tvShowAdapter.clear();
         loadFirstPage();
     }
 
@@ -227,44 +226,44 @@ public class MovieFragment extends Fragment {
 
         //If the origin of the method call is NOT a search result
         if (origin.equals("popular") || searchTerm.toString().equals("")) {
-            callPopularMovies().enqueue(new Callback<MovieApiResponse>() {
+            callPopularTvShows().enqueue(new Callback<TvShowApiResponse>() {
                 @Override
-                public void onResponse(@NonNull Call<MovieApiResponse> call,
-                                       @NonNull Response<MovieApiResponse> response) {
+                public void onResponse(@NonNull Call<TvShowApiResponse> call,
+                                       @NonNull Response<TvShowApiResponse> response) {
                     // Got data. Send it to adapter
-                    List<Movie> results = fetchResults(response);
+                    List<TvShow> results = fetchResults(response);
                     movieProgress.setVisibility(View.GONE);
                     if (results != null) {
-                        movieAdapter.addAll(results);
+                        tvShowAdapter.addAll(results);
                     }
 
-                    if (currentPage <= TOTAL_PAGES) movieAdapter.addLoadingFooter();
+                    if (currentPage <= TOTAL_PAGES) tvShowAdapter.addLoadingFooter();
                     else isLastPage = true;
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<MovieApiResponse> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<TvShowApiResponse> call, @NonNull Throwable t) {
                     t.printStackTrace();
                 }
             });
             //if the origin of the method call is a search result
         } else if (origin.equals("search")) {
-            callSearchResultMovies().enqueue(new Callback<MovieApiResponse>() {
+            callSearchResultTvShows().enqueue(new Callback<TvShowApiResponse>() {
                 @Override
-                public void onResponse(@NonNull Call<MovieApiResponse> call,
-                                       @NonNull Response<MovieApiResponse> response) {
+                public void onResponse(@NonNull Call<TvShowApiResponse> call,
+                                       @NonNull Response<TvShowApiResponse> response) {
                     // Got data. Send it to adapter
-                    List<Movie> results = fetchResults(response);
+                    List<TvShow> results = fetchResults(response);
                     movieProgress.setVisibility(View.GONE);
                     if (results != null) {
-                        movieAdapter.addAll(results);
+                        tvShowAdapter.addAll(results);
                     }
-                    if (currentPage <= TOTAL_PAGES) movieAdapter.addLoadingFooter();
+                    if (currentPage <= TOTAL_PAGES) tvShowAdapter.addLoadingFooter();
                     else isLastPage = true;
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<MovieApiResponse> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<TvShowApiResponse> call, @NonNull Throwable t) {
                     t.printStackTrace();
                 }
             });
@@ -272,10 +271,10 @@ public class MovieFragment extends Fragment {
     }
 
     //Fetch Popular Movies
-    private List<Movie> fetchResults(Response<MovieApiResponse> response) {
-        MovieApiResponse popular = response.body();
+    private List<TvShow> fetchResults(Response<TvShowApiResponse> response) {
+        TvShowApiResponse popular = response.body();
         if (popular != null) {
-            return popular.getMovies();
+            return popular.getTvShows();
         }
         return null;
     }
@@ -283,44 +282,44 @@ public class MovieFragment extends Fragment {
     private void loadNextPage() {
 
         if (origin.equals("popular") || searchTerm.toString().equals("")) {
-            callPopularMovies().enqueue(new Callback<MovieApiResponse>() {
+            callPopularTvShows().enqueue(new Callback<TvShowApiResponse>() {
                 @Override
-                public void onResponse(@NonNull Call<MovieApiResponse> call,
-                                       @NonNull Response<MovieApiResponse> response) {
-                    movieAdapter.removeLoadingFooter();
+                public void onResponse(@NonNull Call<TvShowApiResponse> call,
+                                       @NonNull Response<TvShowApiResponse> response) {
+                    tvShowAdapter.removeLoadingFooter();
                     isLoading = false;
-                    List<Movie> results = fetchResults(response);
+                    List<TvShow> results = fetchResults(response);
                     if (results != null) {
-                        movieAdapter.addAll(results);
+                        tvShowAdapter.addAll(results);
                     }
 
-                    if (currentPage != TOTAL_PAGES) movieAdapter.addLoadingFooter();
+                    if (currentPage != TOTAL_PAGES) tvShowAdapter.addLoadingFooter();
                     else isLastPage = true;
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<MovieApiResponse> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<TvShowApiResponse> call, @NonNull Throwable t) {
                     t.printStackTrace();
                 }
             });
         } else if (origin.equals("search")) {
-            callSearchResultMovies().enqueue(new Callback<MovieApiResponse>() {
+            callSearchResultTvShows().enqueue(new Callback<TvShowApiResponse>() {
                 @Override
-                public void onResponse(@NonNull Call<MovieApiResponse> call,
-                                       @NonNull Response<MovieApiResponse> response) {
-                    movieAdapter.removeLoadingFooter();
+                public void onResponse(@NonNull Call<TvShowApiResponse> call,
+                                       @NonNull Response<TvShowApiResponse> response) {
+                    tvShowAdapter.removeLoadingFooter();
                     isLoading = false;
-                    List<Movie> results = fetchResults(response);
+                    List<TvShow> results = fetchResults(response);
                     if (results != null) {
-                        movieAdapter.addAll(results);
+                        tvShowAdapter.addAll(results);
                     }
 
-                    if (currentPage != TOTAL_PAGES) movieAdapter.addLoadingFooter();
+                    if (currentPage != TOTAL_PAGES) tvShowAdapter.addLoadingFooter();
                     else isLastPage = true;
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<MovieApiResponse> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<TvShowApiResponse> call, @NonNull Throwable t) {
                     t.printStackTrace();
                 }
             });
@@ -328,19 +327,20 @@ public class MovieFragment extends Fragment {
     }
 
     //Ping the Popular movies endpoint
-    private Call<MovieApiResponse> callPopularMovies() {
-        return movieService.getPopularMovies(
+    private Call<TvShowApiResponse> callPopularTvShows() {
+        return movieService.getPopularTvShows(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
                 currentPage
         );
     }
 
     //Ping the search movies endpoint
-    private Call<MovieApiResponse> callSearchResultMovies() {
-        return movieService.getSearchResultMovies(
+    private Call<TvShowApiResponse> callSearchResultTvShows() {
+        return movieService.getSearchResultTvShows(
                 BuildConfig.THE_MOVIE_DB_API_TOKEN,
                 searchTerm, currentPage
         );
     }
+
 
 }

@@ -15,9 +15,14 @@ public class Cast implements Parcelable {
 
     @SerializedName("name")
     private String castName;
+    @SerializedName("character")
+    private String character;
 
     public String getCastName() {
         return castName;
+    }
+    public String getCharacter() {
+        return character;
     }
 
     @Override
@@ -28,10 +33,13 @@ public class Cast implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.castName);
+        dest.writeString(this.character);
     }
 
     private Cast(Parcel in) {
         this.castName = in.readString();
+        this.character = in.readString();
+
     }
 
     public static final Creator<Cast> CREATOR = new Creator<Cast>() {
